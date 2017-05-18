@@ -248,7 +248,7 @@ var parser = new htmlparser.Parser({
       currTag = "head";
     } else if (currTag === "head" && name === "meta") {
       var n = attribs.property,
-        v = attribs.content;
+        v = attribs.content || attribs.value;
       if (attribs.name) {
         n = attribs.name;
       }
