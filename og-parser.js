@@ -322,10 +322,28 @@ var parser = new htmlparser.Parser({
     }
   }
 });
-var _get_og_data = function(url, callback) {
+
+var _get_og_data = function(params, callback) {
+  var url, body;
+  if (typeof params == 'string') {
+    url = params;
+  } else {
+    url = params.url;
+    body = params.body;
+  }
+
   if (!callback) {
     return;
   }
+
+  if (body != null) {
+    meta = {};
+    parser.write(body);
+    parser.end();
+    callback(null, meta);
+    return;
+  }
+
   var headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36',
     'Accept-Language': 'en-US'
