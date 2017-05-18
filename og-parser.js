@@ -279,15 +279,15 @@ var parser = new htmlparser.Parser({
       currTag = 'body/span';
       currMeta.name = attribs.itemprop;
     } else if (currTag === 'body/span' && name === 'link') {
-      if (!currMeta. in ) {
-        currMeta. in = {};
+      if (!currMeta.in) {
+        currMeta.in = {};
       }
-      currMeta. in .url = attribs.href;
+      currMeta.in.url = attribs.href;
     } else if (currTag === 'body/span' && name === 'meta') {
-      if (!currMeta. in ) {
-        currMeta. in = {};
+      if (!currMeta.in) {
+        currMeta.in = {};
       }
-      currMeta. in [attribs.itemprop] = attribs.content;
+      currMeta.in[attribs.itemprop] = attribs.content;
     } else if (currTag === 'body' && name === 'link') {
       if (!meta.meta) {
         meta.meta = {};
@@ -315,7 +315,7 @@ var parser = new htmlparser.Parser({
       if (!meta.meta) {
         meta.meta = {};
       }
-      meta.meta[currMeta.name] = currMeta. in ;
+      meta.meta[currMeta.name] = currMeta.in;
       currMeta = {};
     } else if (currTag === 'body' && tagname === 'body') {
       currTag = null;
@@ -323,24 +323,8 @@ var parser = new htmlparser.Parser({
   }
 });
 
-var _get_og_data = function(params, callback) {
-  var url, body;
-  if (typeof params == 'string') {
-    url = params;
-  } else {
-    url = params.url;
-    body = params.body;
-  }
-
+var _get_og_data = function(url, callback) {
   if (!callback) {
-    return;
-  }
-
-  if (body != null) {
-    meta = {};
-    parser.write(body);
-    parser.end();
-    callback(null, meta);
     return;
   }
 
@@ -375,4 +359,12 @@ var _get_og_data = function(params, callback) {
   });
 };
 
+var _parse_body = function(body) {
+  meta = {};
+  parser.write(body);
+  parser.end();
+  return meta;
+};
+
 module.exports = _get_og_data;
+module.exports.body = _parse_body;
